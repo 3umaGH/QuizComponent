@@ -52,6 +52,10 @@ export const Quiz = ({
   const [totalQuestions, totalCorrectQuestions] = getQuestionsCount();
   const [isMultipleAnswers, correctAnswersAmount] = isCurrQuestionMultiAnswer() as [boolean, number];
 
+  let answersToDo = correctAnswersAmount-(answeredVariant.length);
+  //TODO: Shuffle answers, disable next button until all answered
+
+
   function getQuestionsCount() {
     let totalQuestions = 0,
       correctQuestions = 0;
@@ -182,8 +186,8 @@ export const Quiz = ({
                   ))}
 
                   <p>
-                    <b>{`* Select ${correctAnswersAmount}  ${
-                      isMultipleAnswers ? `answers` : `answer`
+                    <b>{`* Select ${answersToDo}  ${
+                      answersToDo ? `answers` : `answer`
                     }`}</b>
                   </p>
                 </div>
