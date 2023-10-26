@@ -39,7 +39,6 @@ export const Quiz = ({
   const [showSummary, setShowSummary] = useState(false);
 
   const currentQuestion = quizQuestions[currentQuestionID];
-  const multipleCorrectAnswers = currentQuestion.multipleCorrectAnswers;
 
   const [totalQuestions, totalCorrectQuestions] = getQuestionsCount();
 
@@ -70,7 +69,7 @@ export const Quiz = ({
     index: number,
     isCorrect: boolean
   ) => {
-    if (!multipleCorrectAnswers) setAnsweredVariant([index]);
+    if (!currentQuestion.multipleCorrectAnswers) setAnsweredVariant([index]);
     else setAnsweredVariant([...answeredVariant, index]);
 
     setTotalCorrectAnswers((prevVal) => prevVal + (isCorrect ? 1 : 0));
@@ -125,7 +124,7 @@ export const Quiz = ({
                       key={index}
                       disabled={
                         answeredVariant.includes(index) ||
-                        (!multipleCorrectAnswers && answeredVariant.length > 0)
+                        (!currentQuestion.multipleCorrectAnswers && answeredVariant.length > 0)
                       }
                       style={
                         answeredVariant.includes(index)
