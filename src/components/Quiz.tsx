@@ -104,7 +104,7 @@ export const Quiz = ({
                     {description && <h6>{description}</h6>}
                   </div>
                 </div>
-                <button onClick={() => startQuiz()} className="quizButton">
+                <button onClick={() => startQuiz()} className="quizStartButton">
                   Start Quiz
                 </button>
                 {difficulty && (
@@ -142,6 +142,10 @@ export const Quiz = ({
                       {answer.variant}
                     </button>
                   ))}
+
+                  <p><b>{currentQuestion.multipleCorrectAnswers ? "* Multiple Answers" : ""} </b></p>
+
+                  
                 </div>
 
                 <button className="nextButton" onClick={() => handleNext()}>
