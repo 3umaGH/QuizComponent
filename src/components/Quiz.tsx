@@ -1,18 +1,19 @@
 import React, { useState } from "react";
 
 const correctAnswerButtonStyle = {
-  opacity: '1',
-  backgroundColor: '#50C878',
+  opacity: "1",
+  backgroundColor: "#50C878",
   color: "#fafafa",
-  boxShadow: "rgba(78, 13, 218, 0.1) 0 2px 4px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #43a865 0 -3px 0 inset"
-
+  boxShadow:
+    "rgba(78, 13, 218, 0.1) 0 2px 4px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #43a865 0 -3px 0 inset",
 };
 
 const incorrectAnswerButtonStyle = {
-  opacity: '1',
+  opacity: "1",
   backgroundColor: "#C70039",
   color: "#fafafa",
-  boxShadow: "rgba(78, 13, 218, 0.1) 0 2px 4px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #b50235 0 -3px 0 inset"
+  boxShadow:
+    "rgba(78, 13, 218, 0.1) 0 2px 4px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #b50235 0 -3px 0 inset",
 };
 
 type QuizProps = {
@@ -49,6 +50,8 @@ export const Quiz = ({
   const currentQuestion = quizQuestions[currentQuestionID];
 
   const [totalQuestions, totalCorrectQuestions] = getQuestionsCount();
+  const [isMultipleAnswers, correctAnswersAmount] =
+    isCurrQuestionMultiAnswer() as [boolean, number];
 
   function getQuestionsCount() {
     let totalQuestions = 0,
@@ -64,15 +67,15 @@ export const Quiz = ({
     return [totalQuestions, correctQuestions];
   }
 
-  const isMultiAnswer = (question: QuizQuestionProps): boolean => {
+  function isCurrQuestionMultiAnswer() {
     let correctAnswers = 0;
 
     currentQuestion.answers.forEach((answer) => {
       if (answer.correct) correctAnswers++;
     });
 
-    return correctAnswers > 1;
-  };
+    return [correctAnswers > 1, correctAnswers];
+  }
 
   const calculateGrade = () => {
     return (totalCorrectAnswers / totalCorrectQuestions) * 100;
@@ -87,8 +90,10 @@ export const Quiz = ({
     index: number,
     isCorrect: boolean
   ) => {
-    if (!isMultiAnswer(currentQuestion)) setAnsweredVariant([index]);
-    else setAnsweredVariant([...answeredVariant, index]);
+    if (!isMultipleAnswers) setAnsweredVariant([index]);
+    setAnsweredVariant([...answeredVariant, index]);
+
+    console.log(correctAnswersAmount);
 
     setTotalCorrectAnswers((prevVal) => prevVal + (isCorrect ? 1 : 0));
   };
@@ -122,7 +127,10 @@ export const Quiz = ({
                     {description && <h6>{description}</h6>}
                   </div>
                 </div>
-                <button onClick={() => startQuiz()} className="button quizStartButton">
+                <button
+                  onClick={() => startQuiz()}
+                  className="button quizStartButton"
+                >
                   Start Quiz
                 </button>
                 {difficulty && (
@@ -146,8 +154,7 @@ export const Quiz = ({
                       className="button quizAnswerOption"
                       disabled={
                         answeredVariant.includes(index) ||
-                        (!isMultiAnswer(currentQuestion) &&
-                          answeredVariant.length > 0)
+                        answeredVariant.length >= correctAnswersAmount
                       }
                       style={
                         answeredVariant.includes(index)
@@ -162,15 +169,14 @@ export const Quiz = ({
                   ))}
 
                   <p>
-                    <b>
-                      {isMultiAnswer(currentQuestion)
-                        ? "* Multiple Answers"
-                        : ""}
-                    </b>
+                    <b>{`* Select ${correctAnswersAmount}  ${isMultipleAnswers ? `answers` : `answer`}`}</b>
                   </p>
                 </div>
 
-                <button className="button nextButton" onClick={() => handleNext()}>
+                <button
+                  className="button nextButton"
+                  onClick={() => handleNext()}
+                >
                   Next
                 </button>
               </>
