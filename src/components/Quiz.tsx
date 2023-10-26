@@ -89,11 +89,11 @@ export const Quiz = ({
     <>
       <div className="quizWrapper">
         {showSummary ? (
-          <>
+          <div className="quizSummary">
             <h1>Congratulations!</h1>
             <p>You have finished "{title}" quiz.</p>
             <h3>Total Grade: {calculateGrade().toFixed(1)}%</h3>
-          </>
+          </div>
         ) : (
           <>
             {!isStarted ? (
@@ -107,6 +107,9 @@ export const Quiz = ({
                 <button onClick={() => startQuiz()} className="quizButton">
                   Start Quiz
                 </button>
+                {difficulty && (
+                  <h6 className="quizDifficulty">Difficulty: {difficulty}</h6>
+                )}
               </>
             ) : (
               <>
@@ -122,9 +125,11 @@ export const Quiz = ({
                         handleAnswerClick(e, index, answer.correct)
                       }
                       key={index}
+                      className="quizAnswerOption"
                       disabled={
                         answeredVariant.includes(index) ||
-                        (!currentQuestion.multipleCorrectAnswers && answeredVariant.length > 0)
+                        (!currentQuestion.multipleCorrectAnswers &&
+                          answeredVariant.length > 0)
                       }
                       style={
                         answeredVariant.includes(index)

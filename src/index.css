@@ -38,15 +38,21 @@ h6 {
 
   font-family: "Roboto";
   font-variant: small-caps;
-  font-size: 1.5rem;
+  font-size: 3rem;
 }
 
 .quizDesc {
   margin-top: 2%;
   padding: 0px 5% 0px 5%;
 
-  font-size: 1rem;
+  font-size: 2rem;
   font-variant: normal;
+}
+
+.quizQuestionDescription {
+  font-size: 1.5rem;
+
+  margin: 30px 0px 30px;
 }
 
 .quizButton {
@@ -56,10 +62,16 @@ h6 {
   font-size: 1rem;
 }
 
+.quizDifficulty {
+  padding-bottom: 2%;
+
+  font-size: 1.5rem;
+}
+
 .quizAnswers {
   margin-top: 2%;
 
-  display:flex;
+  display: flex;
   flex-direction: column;
 
   justify-content: center;
@@ -68,5 +80,15 @@ h6 {
 .nextButton {
   margin: 2% 0 1% 0;
   width: 10%;
+  min-width: 100px;
 
+  font-size: 1.5rem;
+}
+
+.quizAnswerOption {
+  font-size: 1.5rem;
+}
+
+.quizSummary {
+  font-size: 1.5rem;
 }
