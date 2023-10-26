@@ -195,6 +195,7 @@ export const Quiz = ({
                 <button
                   className="button nextButton"
                   onClick={() => handleNext()}
+                  disabled={answersToDo > 0}
                 >
                   Next
                 </button>
