@@ -85,6 +85,15 @@ export const Quiz = ({
     setStarted(true);
   };
 
+  const resetQuiz = () => {
+    setStarted(false);
+    setCurrentQuestionID(0);
+    setAnsweredVariant([]);
+    setShowSummary(false);
+
+    console.log("start?");
+  }
+
   const handleAnswerClick = (
     e: React.MouseEvent<HTMLButtonElement>,
     index: number,
@@ -113,9 +122,10 @@ export const Quiz = ({
       <div className="quizWrapper">
         {showSummary ? (
           <div className="quizSummary">
-            <h1>Congratulations!</h1>
+            <h2>Congratulations!</h2>
             <p>You have finished "{title}" quiz.</p>
             <h3>Total Grade: {calculateGrade().toFixed(1)}%</h3>
+            <button className="button nextButton" onClick={() => resetQuiz()}>Try again</button>
           </div>
         ) : (
           <>
