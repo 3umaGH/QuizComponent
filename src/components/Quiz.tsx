@@ -15,15 +15,16 @@ type QuizProps = {
   quizData: QuizDataProps;
 };
 
-export type QuizDataProps = {
+type QuizQuestionProps = {
   title: string;
   description: string;
-  multipleCorrectAnswers: boolean;
   answers: {
     variant: string;
     correct: boolean;
   }[];
-}[];
+};
+
+export type QuizDataProps = QuizQuestionProps[];
 
 export const Quiz = ({
   title,
@@ -56,6 +57,16 @@ export const Quiz = ({
     return [totalQuestions, correctQuestions];
   }
 
+  const isMultiAnswer = (question: QuizQuestionProps): boolean => {
+    let correctAnswers = 0;
+
+    currentQuestion.answers.forEach((answer) => {
+      if (answer.correct) correctAnswers++;
+    });
+
+    return correctAnswers > 1;
+  };
+
   const calculateGrade = () => {
     return (totalCorrectAnswers / totalCorrectQuestions) * 100;
   };
@@ -69,7 +80,7 @@ export const Quiz = ({
     index: number,
     isCorrect: boolean
   ) => {
-    if (!currentQuestion.multipleCorrectAnswers) setAnsweredVariant([index]);
+    if (!isMultiAnswer(currentQuestion)) setAnsweredVariant([index]);
     else setAnsweredVariant([...answeredVariant, index]);
 
     setTotalCorrectAnswers((prevVal) => prevVal + (isCorrect ? 1 : 0));
@@ -128,7 +139,7 @@ export const Quiz = ({
                       className="quizAnswerOption"
                       disabled={
                         answeredVariant.includes(index) ||
-                        (!currentQuestion.multipleCorrectAnswers &&
+                        (!isMultiAnswer(currentQuestion) &&
                           answeredVariant.length > 0)
                       }
                       style={
@@ -143,9 +154,13 @@ export const Quiz = ({
                     </button>
                   ))}
 
-                  <p><b>{currentQuestion.multipleCorrectAnswers ? "* Multiple Answers" : ""} </b></p>
-
-                  
+                  <p>
+                    <b>
+                      {isMultiAnswer(currentQuestion)
+                        ? "* Multiple Answers"
+                        : ""}
+                    </b>
+                  </p>
                 </div>
 
                 <button className="nextButton" onClick={() => handleNext()}>

@@ -7,7 +7,6 @@ function App() {
     {
       title: "Who built this?",
       description: "Maybe some text here to explain the question",
-      multipleCorrectAnswers: true,
       answers: [
         {
           variant: "Bob true",
@@ -25,8 +24,7 @@ function App() {
     },
     {
       title: "Another question",
-      description: "Maybe some text here to explain the question",
-      multipleCorrectAnswers: false,
+      description: "And no description here",
       answers: [
         {
           variant: "1",
@@ -38,6 +36,10 @@ function App() {
         },
         {
           variant: "3",
+          correct: false,
+        },
+        {
+          variant: "Extra button here",
           correct: false,
         },
       ],
