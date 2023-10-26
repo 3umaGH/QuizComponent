@@ -2,21 +2,19 @@ import React from "react";
 import { Quiz } from "./components/Quiz";
 import { type QuizDataProps } from "./components/Quiz";
 
-
 function App() {
-
   const quizInitData: QuizDataProps = [
     {
       title: "Who built this?",
       description: "Maybe some text here to explain the question",
-      multipleCorrectAnswers: false,
+      multipleCorrectAnswers: true,
       answers: [
         {
-          variant: "Bob",
+          variant: "Bob true",
           correct: true,
         },
         {
-          variant: "Me",
+          variant: "Me true",
           correct: true,
         },
         {
@@ -35,7 +33,7 @@ function App() {
           correct: false,
         },
         {
-          variant: "2",
+          variant: "2 true",
           correct: true,
         },
         {

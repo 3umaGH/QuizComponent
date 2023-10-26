@@ -32,12 +32,33 @@ export const Quiz = ({
   quizData,
 }: QuizProps) => {
   const [isStarted, setStarted] = useState(true);
-  const [quizQuestions, setQuizQuestions] = useState(quizData);
+  const [quizQuestions] = useState(quizData);
   const [currentQuestionID, setCurrentQuestionID] = useState(0);
   const [answeredVariant, setAnsweredVariant] = useState<number[]>([]);
+  const [totalCorrectAnswers, setTotalCorrectAnswers] = useState(0);
 
   const currentQuestion = quizQuestions[currentQuestionID];
   const multipleCorrectAnswers = currentQuestion.multipleCorrectAnswers;
+
+  const [totalQuestions, totalCorrectQuestions] = getQuestionsCount();
+
+  function getQuestionsCount() {
+    let totalQuestions = 0,
+      correctQuestions = 0;
+
+    quizQuestions.forEach((question) =>
+      question.answers.forEach((answer) => {
+        totalQuestions++;
+        if (answer.correct) correctQuestions++;
+      })
+    );
+
+    return [totalQuestions, correctQuestions];
+  }
+
+  const calculateGrade = () => {
+    return (totalCorrectAnswers / totalCorrectQuestions) * 100;
+  };
 
   const startQuiz = () => {
     setStarted(true);
@@ -50,9 +71,18 @@ export const Quiz = ({
   ) => {
     if (!multipleCorrectAnswers) setAnsweredVariant([index]);
     else setAnsweredVariant([...answeredVariant, index]);
+
+    setTotalCorrectAnswers((prevVal) => prevVal + (isCorrect ? 1 : 0));
   };
 
-  const handleNext = () => {};
+  const handleNext = () => {
+    if (!(currentQuestionID + 1 === quizQuestions.length)) {
+      setAnsweredVariant([]); // Clear answers
+      setCurrentQuestionID((prevID) => prevID + 1);
+    } else {
+      // TODO: No more questions
+    }
+  };
 
   return (
     <>
@@ -71,8 +101,6 @@ export const Quiz = ({
           </>
         ) : (
           <>
-            {/*Content here*/}
-
             <h6 className="quizTitle">{currentQuestion.title}</h6>
             <div className="quizQuestionDescription">
               {currentQuestion.description}
@@ -103,6 +131,8 @@ export const Quiz = ({
             <button className="nextButton" onClick={() => handleNext()}>
               Next
             </button>
+
+            <h1>Total Grade: {calculateGrade()}%</h1>
           </>
         )}
       </div>
