@@ -1,11 +1,18 @@
 import React, { useState } from "react";
 
 const correctAnswerButtonStyle = {
-  backgroundColor: "green",
+  opacity: '1',
+  backgroundColor: '#50C878',
+  color: "#fafafa",
+  boxShadow: "rgba(78, 13, 218, 0.1) 0 2px 4px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #43a865 0 -3px 0 inset"
+
 };
 
 const incorrectAnswerButtonStyle = {
-  backgroundColor: "red",
+  opacity: '1',
+  backgroundColor: "#C70039",
+  color: "#fafafa",
+  boxShadow: "rgba(78, 13, 218, 0.1) 0 2px 4px, rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #b50235 0 -3px 0 inset"
 };
 
 type QuizProps = {
@@ -115,7 +122,7 @@ export const Quiz = ({
                     {description && <h6>{description}</h6>}
                   </div>
                 </div>
-                <button onClick={() => startQuiz()} className="quizStartButton">
+                <button onClick={() => startQuiz()} className="button quizStartButton">
                   Start Quiz
                 </button>
                 {difficulty && (
@@ -136,7 +143,7 @@ export const Quiz = ({
                         handleAnswerClick(e, index, answer.correct)
                       }
                       key={index}
-                      className="quizAnswerOption"
+                      className="button quizAnswerOption"
                       disabled={
                         answeredVariant.includes(index) ||
                         (!isMultiAnswer(currentQuestion) &&
@@ -163,7 +170,7 @@ export const Quiz = ({
                   </p>
                 </div>
 
-                <button className="nextButton" onClick={() => handleNext()}>
+                <button className="button nextButton" onClick={() => handleNext()}>
                   Next
                 </button>
               </>
