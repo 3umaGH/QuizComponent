@@ -41,12 +41,12 @@ h6 {
 
   font-family: "Roboto";
   font-variant: small-caps;
-  font-size: 3rem;
+  font-size: 2rem;
 }
 
 .quizDesc {
   margin-top: 30px;
-  padding: 0px 30% 0px 30%;
+  padding: 0px 10% 0px 10%;
 
   font-family: "JetBrains Mono", monospace;
   font-size: 2rem;
