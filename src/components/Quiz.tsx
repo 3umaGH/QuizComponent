@@ -99,7 +99,7 @@ export const Quiz = ({
   const startQuiz = () => {
     if (shuffleQuestions)
       setQuizQuestions((prevArray) => shuffleQuestionsArray(prevArray));
-    
+
     setStarted(true);
   };
 
@@ -171,7 +171,7 @@ export const Quiz = ({
               </>
             ) : (
               <>
-                <h6 className="quizTitle">{currentQuestion.title}</h6>
+                <h6 className="quizQuestionTitle">{currentQuestion.title}</h6>
                 <div className="quizQuestionDescription">
                   {currentQuestion.description}
                 </div>

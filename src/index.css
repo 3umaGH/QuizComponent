@@ -7,6 +7,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+html {
+  font-size: 125%;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
@@ -49,14 +53,21 @@ h6 {
   padding: 0px 10% 0px 10%;
 
   font-family: "JetBrains Mono", monospace;
-  font-size: 2rem;
+  font-size: 1.5rem;
   font-variant: normal;
 }
 
 .quizQuestionDescription {
-  font-size: 1.5rem;
+  font-size: 1rem;
 
   margin: 30px 0px 30px;
+}
+
+.quizQuestionTitle {
+  font-size: 1.2rem;
+
+  padding-top: 25px;
+  margin: 0px 0px 30px;
 }
 
 .quizStartButton {
@@ -80,7 +91,7 @@ h6 {
 }
 
 .nextButton {
-  margin: 0 0 30px 0;
+  margin: 50px 0 30px 0;
   width: 10%;
   min-width: 100px;
 }
@@ -97,7 +108,7 @@ h6 {
   text-wrap: wrap;
 
   font-size: 1rem;
-  padding: 2rem;
+  padding: 2rem 0 0 0;
 }
 
 .button {
