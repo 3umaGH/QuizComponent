@@ -124,6 +124,7 @@ function App() {
         title="JavaScript Fundamentals Quiz"
         description="Test your knowledge of JavaScript fundamentals with this quiz! Whether you're a beginner or looking to brush up on your skills, these questions cover essential concepts like data types, variables, arrays, loops, and more. Challenge yourself and see how well you know the building blocks of JavaScript programming. Good luck!"
         difficulty="hard"
+        shuffleQuestions={true}
         quizData={quizInitData}
       />
     </div>

@@ -20,6 +20,7 @@ type QuizProps = {
   title: string;
   description?: string;
   difficulty?: string;
+  shuffleQuestions?: boolean;
   quizData: QuizDataProps;
 };
 
@@ -37,11 +38,12 @@ export type QuizDataProps = QuizQuestionProps[];
 export const Quiz = ({
   title,
   description,
+  shuffleQuestions = false,
   difficulty,
   quizData,
 }: QuizProps) => {
   const [isStarted, setStarted] = useState(false);
-  const [quizQuestions] = useState(quizData);
+  const [quizQuestions, setQuizQuestions] = useState(quizData);
   const [currentQuestionID, setCurrentQuestionID] = useState(0);
   const [answeredVariant, setAnsweredVariant] = useState<number[]>([]);
   const [totalCorrectAnswers, setTotalCorrectAnswers] = useState(0);
@@ -50,11 +52,11 @@ export const Quiz = ({
   const currentQuestion = quizQuestions[currentQuestionID];
 
   const [totalQuestions, totalCorrectQuestions] = getQuestionsCount();
-  const [isMultipleAnswers, correctAnswersAmount] = isCurrQuestionMultiAnswer() as [boolean, number];
+  const [isMultipleAnswers, correctAnswersAmount] =
+    isCurrQuestionMultiAnswer() as [boolean, number];
 
-  let answersToDo = correctAnswersAmount-(answeredVariant.length);
+  let answersToDo = correctAnswersAmount - answeredVariant.length;
   //TODO: Shuffle answers, disable next button until all answered
-
 
   function getQuestionsCount() {
     let totalQuestions = 0,
@@ -84,7 +86,20 @@ export const Quiz = ({
     return (totalCorrectAnswers / totalCorrectQuestions) * 100;
   };
 
+  function shuffleQuestionsArray(array: QuizDataProps) {
+    const newArray = [...array];
+
+    newArray.sort(() => Math.random() - 0.5);
+    newArray.forEach((answer) =>
+      answer.answers.sort(() => Math.random() - 0.5)
+    );
+    return newArray;
+  }
+
   const startQuiz = () => {
+    if (shuffleQuestions)
+      setQuizQuestions((prevArray) => shuffleQuestionsArray(prevArray));
+    
     setStarted(true);
   };
 
