@@ -1,24 +1,15 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { Quiz } from "./components/Quiz";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Quiz
+        title="First Quiz"
+        description="This quiz is used as a placeholder and used for testing purposes.
+        maybe some bigger text toomaybe some bigger text toomaybe some bigger text toomaybe some bigger text too maybe some bigger text toomaybe some bigger text toomaybe some bigger text toomaybe some bigger text toomaybe some bigger text toomaybe some bigger text toomaybe some bigger text toomaybe some bigger text toomaybe some bigger text too"
+        difficulty="hard"
+      />
     </div>
   );
 }
