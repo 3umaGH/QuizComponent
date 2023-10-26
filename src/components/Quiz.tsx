@@ -36,6 +36,7 @@ export const Quiz = ({
   const [currentQuestionID, setCurrentQuestionID] = useState(0);
   const [answeredVariant, setAnsweredVariant] = useState<number[]>([]);
   const [totalCorrectAnswers, setTotalCorrectAnswers] = useState(0);
+  const [showSummary, setShowSummary] = useState(false);
 
   const currentQuestion = quizQuestions[currentQuestionID];
   const multipleCorrectAnswers = currentQuestion.multipleCorrectAnswers;
@@ -80,59 +81,70 @@ export const Quiz = ({
       setAnsweredVariant([]); // Clear answers
       setCurrentQuestionID((prevID) => prevID + 1);
     } else {
-      // TODO: No more questions
+      // No more questions
+      setShowSummary(true);
     }
   };
 
   return (
     <>
       <div className="quizWrapper">
-        {!isStarted ? (
+        {showSummary ? (
           <>
-            <div className="quizTitle">
-              <h4>{title}</h4>
-              <div className="quizDesc">
-                {description && <h6>{description}</h6>}
-              </div>
-            </div>
-            <button onClick={() => startQuiz()} className="quizButton">
-              Start Quiz
-            </button>
+            <h1>Congratulations!</h1>
+            <p>You have finished "{title}" quiz.</p>
+            <h3>Total Grade: {calculateGrade().toFixed(1)}%</h3>
           </>
         ) : (
           <>
-            <h6 className="quizTitle">{currentQuestion.title}</h6>
-            <div className="quizQuestionDescription">
-              {currentQuestion.description}
-            </div>
-
-            <div className="quizAnswers">
-              {currentQuestion.answers.map((answer, index) => (
-                <button
-                  onClick={(e) => handleAnswerClick(e, index, answer.correct)}
-                  key={index}
-                  disabled={
-                    answeredVariant.includes(index) ||
-                    (!multipleCorrectAnswers && answeredVariant.length > 0)
-                  }
-                  style={
-                    answeredVariant.includes(index)
-                      ? answer.correct
-                        ? correctAnswerButtonStyle
-                        : incorrectAnswerButtonStyle
-                      : {}
-                  }
-                >
-                  {answer.variant}
+            {!isStarted ? (
+              <>
+                <div className="quizTitle">
+                  <h4>{title}</h4>
+                  <div className="quizDesc">
+                    {description && <h6>{description}</h6>}
+                  </div>
+                </div>
+                <button onClick={() => startQuiz()} className="quizButton">
+                  Start Quiz
                 </button>
-              ))}
-            </div>
+              </>
+            ) : (
+              <>
+                <h6 className="quizTitle">{currentQuestion.title}</h6>
+                <div className="quizQuestionDescription">
+                  {currentQuestion.description}
+                </div>
 
-            <button className="nextButton" onClick={() => handleNext()}>
-              Next
-            </button>
+                <div className="quizAnswers">
+                  {currentQuestion.answers.map((answer, index) => (
+                    <button
+                      onClick={(e) =>
+                        handleAnswerClick(e, index, answer.correct)
+                      }
+                      key={index}
+                      disabled={
+                        answeredVariant.includes(index) ||
+                        (!multipleCorrectAnswers && answeredVariant.length > 0)
+                      }
+                      style={
+                        answeredVariant.includes(index)
+                          ? answer.correct
+                            ? correctAnswerButtonStyle
+                            : incorrectAnswerButtonStyle
+                          : {}
+                      }
+                    >
+                      {answer.variant}
+                    </button>
+                  ))}
+                </div>
 
-            <h1>Total Grade: {calculateGrade()}%</h1>
+                <button className="nextButton" onClick={() => handleNext()}>
+                  Next
+                </button>
+              </>
+            )}
           </>
         )}
       </div>
