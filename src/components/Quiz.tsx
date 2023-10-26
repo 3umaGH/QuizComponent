@@ -50,19 +50,18 @@ export const Quiz = ({
   const currentQuestion = quizQuestions[currentQuestionID];
 
   const [totalQuestions, totalCorrectQuestions] = getQuestionsCount();
-  const [isMultipleAnswers, correctAnswersAmount] =
-    isCurrQuestionMultiAnswer() as [boolean, number];
+  const [isMultipleAnswers, correctAnswersAmount] = isCurrQuestionMultiAnswer() as [boolean, number];
 
   function getQuestionsCount() {
     let totalQuestions = 0,
       correctQuestions = 0;
 
-    quizQuestions.forEach((question) =>
+    quizQuestions.forEach((question) => {
       question.answers.forEach((answer) => {
-        totalQuestions++;
         if (answer.correct) correctQuestions++;
-      })
-    );
+      });
+      totalQuestions++;
+    });
 
     return [totalQuestions, correctQuestions];
   }
@@ -92,7 +91,7 @@ export const Quiz = ({
     setShowSummary(false);
 
     console.log("start?");
-  }
+  };
 
   const handleAnswerClick = (
     e: React.MouseEvent<HTMLButtonElement>,
@@ -125,7 +124,9 @@ export const Quiz = ({
             <h2>Congratulations!</h2>
             <p>You have finished "{title}" quiz.</p>
             <h3>Total Grade: {calculateGrade().toFixed(1)}%</h3>
-            <button className="button nextButton" onClick={() => resetQuiz()}>Try again</button>
+            <button className="button nextButton" onClick={() => resetQuiz()}>
+              Try again
+            </button>
           </div>
         ) : (
           <>
@@ -135,6 +136,8 @@ export const Quiz = ({
                   <h4>{title}</h4>
                   <div className="quizDesc">
                     {description && <h6>{description}</h6>}
+                    <br />
+                    <h6>[{totalQuestions} questions]</h6>
                   </div>
                 </div>
                 <button
@@ -179,7 +182,9 @@ export const Quiz = ({
                   ))}
 
                   <p>
-                    <b>{`* Select ${correctAnswersAmount}  ${isMultipleAnswers ? `answers` : `answer`}`}</b>
+                    <b>{`* Select ${correctAnswersAmount}  ${
+                      isMultipleAnswers ? `answers` : `answer`
+                    }`}</b>
                   </p>
                 </div>
 
