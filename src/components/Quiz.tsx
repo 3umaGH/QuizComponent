@@ -31,7 +31,7 @@ export const Quiz = ({
   difficulty,
   quizData,
 }: QuizProps) => {
-  const [isStarted, setStarted] = useState(true);
+  const [isStarted, setStarted] = useState(false);
   const [quizQuestions] = useState(quizData);
   const [currentQuestionID, setCurrentQuestionID] = useState(0);
   const [answeredVariant, setAnsweredVariant] = useState<number[]>([]);
