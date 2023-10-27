@@ -54,6 +54,8 @@ export const Quiz = ({ shuffleQuestions = false, data }: QuizProps) => {
 
   let currentQuestionAnswersToDo = currentCorrectAnswersAmount - answeredOptions.length;
 
+
+  // Quiz functions start
   function getQuestionsCount() {
     let totalQuestions = 0,
       correctQuestions = 0;
@@ -78,10 +80,6 @@ export const Quiz = ({ shuffleQuestions = false, data }: QuizProps) => {
     return [correctAnswers > 1, correctAnswers];
   }
 
-  const calculateGrade = () => {
-    return (totalCorrectAnswers / totalCorrectQuestions) * 100;
-  };
-
   function shuffleQuestionsArray(data: QuizDataProps) {
     const newData = { ...data };
 
@@ -92,20 +90,13 @@ export const Quiz = ({ shuffleQuestions = false, data }: QuizProps) => {
     return newData;
   }
 
-  const startQuiz = () => {
-    if (shuffleQuestions) 
-      setQuizData((prevArray) => shuffleQuestionsArray(prevArray));
-    
-    setStarted(true);
+  const calculateGrade = () => {
+    return (totalCorrectAnswers / totalCorrectQuestions) * 100;
   };
+    // Quiz functions end
 
-  const resetQuiz = () => {
-    setStarted(false);
-    setCurrentQuestionID(0);
-    setAnsweredOptions([]);
-    setShowSummary(false);
-  };
 
+  // Handlers start
   const handleAnswerClick = (
     e: React.MouseEvent<HTMLButtonElement>,
     index: number,
@@ -126,6 +117,23 @@ export const Quiz = ({ shuffleQuestions = false, data }: QuizProps) => {
       setShowSummary(true);
     }
   };
+  // Handlers end
+
+  // Quiz state functions start
+  const startQuiz = () => {
+    if (shuffleQuestions) 
+      setQuizData((prevArray) => shuffleQuestionsArray(prevArray));
+    
+    setStarted(true);
+  };
+
+  const resetQuiz = () => {
+    setStarted(false);
+    setCurrentQuestionID(0);
+    setAnsweredOptions([]);
+    setShowSummary(false);
+  };
+  // Quiz state functions end
 
   return (
     <>
