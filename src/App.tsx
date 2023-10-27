@@ -1,7 +1,7 @@
 import { Quiz } from "./components/Quiz";
 
 function App() {
-  const quizData = {
+  const quizData1 = {
     title: "JavaScript Fundamentals Quiz",
     description: "Test your knowledge of JavaScript fundamentals with this quiz! Good luck!",
     difficulty: "Intermediate",
@@ -122,9 +122,130 @@ function App() {
     ],
   };
 
+  const quizData2 = {
+    title: "CSS Fundamentals Quiz",
+    description: "Test your knowledge of CSS fundamentals with this quiz! Good luck!",
+    difficulty: "Intermediate",
+    questions: [
+      {
+        title: "What does CSS stand for?",
+        description: "Select the correct option.",
+        answers: [
+          { option: "Cascading Style Sheets", correct: true },
+          { option: "Cascading Script Styles", correct: false },
+          { option: "Creative Style Sheets", correct: false },
+          { option: "Cascading Stylish Sheets", correct: false },
+        ],
+      },
+      {
+        title: "Which property is used to change the background color of an element?",
+        description: "Select the correct option.",
+        answers: [
+          { option: "background-color", correct: true },
+          { option: "color", correct: false },
+          { option: "font-size", correct: false },
+          { option: "margin", correct: false },
+        ],
+      },
+      {
+        title: "What is the default value of the 'position' property in CSS?",
+        description: "Select the correct option.",
+        answers: [
+          { option: "static", correct: true },
+          { option: "relative", correct: false },
+          { option: "fixed", correct: false },
+          { option: "absolute", correct: false },
+        ],
+      },
+      {
+        title: "Which property is used to make text italic in CSS?",
+        description: "Select the correct option.",
+        answers: [
+          { option: "font-style", correct: true },
+          { option: "font-weight", correct: false },
+          { option: "text-decoration", correct: false },
+          { option: "font-variant", correct: false },
+        ],
+      },
+      {
+        title: "Which unit is relative to the font-size of the nearest parent element?",
+        description: "Select the correct option.",
+        answers: [
+          { option: "em", correct: true },
+          { option: "px", correct: false },
+          { option: "rem", correct: false },
+          { option: "vw", correct: false },
+        ],
+      },
+    ],
+  };
+
+  const quizData3 = {
+    title: "HTML Basics Quiz",
+    description: "Test your knowledge of HTML basics with this quiz! Good luck!",
+    difficulty: "Beginner",
+    questions: [
+      {
+        title: "What does HTML stand for?",
+        description: "Select the correct option.",
+        answers: [
+          { option: "HyperText Markup Language", correct: true },
+          { option: "Hyper Transfer Text Language", correct: false },
+          { option: "Highly Typed Meta Language", correct: false },
+          { option: "Hyperlink and Text Markup Language", correct: false },
+        ],
+      },
+      {
+        title: "Which tag is used to create a hyperlink in HTML?",
+        description: "Select the correct option.",
+        answers: [
+          { option: "<a>", correct: true },
+          { option: "<link>", correct: false },
+          { option: "<href>", correct: false },
+          { option: "<hyperlink>", correct: false },
+        ],
+      },
+      {
+        title: "What is the correct way to comment out multiple lines in HTML?",
+        description: "Select the correct option.",
+        answers: [
+          { option: "<!-- This is a comment -->", correct: true },
+          { option: "// This is a comment", correct: false },
+          { option: "/* This is a comment */", correct: false },
+          { option: "' This is a comment", correct: false },
+        ],
+      },
+      {
+        title: "Which element is used to define the structure of an HTML document?",
+        description: "Select the correct option.",
+        answers: [
+          { option: "<html>", correct: true },
+          { option: "<body>", correct: false },
+          { option: "<head>", correct: false },
+          { option: "<section>", correct: false },
+        ],
+      },
+      {
+        title: "What does the 'alt' attribute in an <img> tag provide?",
+        description: "Select the correct option.",
+        answers: [
+          { option: "An alternate text for the image", correct: true },
+          { option: "The alignment of the image", correct: false },
+          { option: "The source URL of the image", correct: false },
+          { option: "The width of the image", correct: false },
+        ],
+      },
+    ],
+  };
+  
+
+
   return (
     <div className="App">
-      <Quiz shuffleQuestions={true} data={quizData} />
+      <Quiz shuffleQuestions={true} showCorrectAnswers={true} data={quizData1} /><br/>
+      <Quiz shuffleQuestions={true} showCorrectAnswers={true} data={quizData2} /><br/>
+      <Quiz shuffleQuestions={true} showCorrectAnswers={true} data={quizData3} /><br/>
+      
     </div>
   );
 }

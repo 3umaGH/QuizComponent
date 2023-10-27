@@ -17,7 +17,8 @@ const incorrectAnswerButtonStyle = {
 };
 
 type QuizProps = {
-  shuffleQuestions?: boolean;
+  shuffleQuestions: boolean;
+  showCorrectAnswers: boolean;
   data: QuizDataProps;
 };
 
@@ -35,12 +36,17 @@ type QuizDataProps = {
   }[];
 };
 
-export const Quiz = ({ shuffleQuestions = false, data }: QuizProps) => {
+export const Quiz = ({
+  shuffleQuestions = false,
+  showCorrectAnswers = false,
+  data,
+}: QuizProps) => {
   // Data
   const [quizData, setQuizData] = useState(data);
   const [answeredOptions, setAnsweredOptions] = useState<number[]>([]);
   const [totalCorrectAnswers, setTotalCorrectAnswers] = useState(0);
   const [currentQuestionID, setCurrentQuestionID] = useState(0);
+  const [showAnswers, setShowAnswers] = useState(false);
 
   // States
   const [isStarted, setStarted] = useState(false);
@@ -52,15 +58,15 @@ export const Quiz = ({ shuffleQuestions = false, data }: QuizProps) => {
   const [isMultipleAnswers, currentCorrectAnswersAmount] =
     isCurrQuestionMultiAnswer() as [boolean, number];
 
-  let currentQuestionAnswersToDo = currentCorrectAnswersAmount - answeredOptions.length;
-
+  let currentQuestionAnswersToDo =
+    currentCorrectAnswersAmount - answeredOptions.length;
 
   // Quiz functions start
   function getQuestionsCount() {
     let totalQuestions = 0,
       correctQuestions = 0;
 
-      quizData.questions.forEach((question) => {
+    quizData.questions.forEach((question) => {
       question.answers.forEach((answer) => {
         if (answer.correct) correctQuestions++;
       });
@@ -93,8 +99,7 @@ export const Quiz = ({ shuffleQuestions = false, data }: QuizProps) => {
   const calculateGrade = () => {
     return (totalCorrectAnswers / totalCorrectQuestions) * 100;
   };
-    // Quiz functions end
-
+  // Quiz functions end
 
   // Handlers start
   const handleAnswerClick = (
@@ -106,9 +111,13 @@ export const Quiz = ({ shuffleQuestions = false, data }: QuizProps) => {
     setAnsweredOptions([...answeredOptions, index]);
 
     setTotalCorrectAnswers((prevVal) => prevVal + (isCorrect ? 1 : 0));
+
+    if (currentQuestionAnswersToDo <= 1) setShowAnswers(true);
   };
 
   const handleNext = () => {
+    setShowAnswers(false);
+
     if (!(currentQuestionID + 1 === quizData.questions.length)) {
       setAnsweredOptions([]); // Clear answers
       setCurrentQuestionID((prevID) => prevID + 1);
@@ -121,9 +130,9 @@ export const Quiz = ({ shuffleQuestions = false, data }: QuizProps) => {
 
   // Quiz state functions start
   const startQuiz = () => {
-    if (shuffleQuestions) 
+    if (shuffleQuestions)
       setQuizData((prevArray) => shuffleQuestionsArray(prevArray));
-    
+
     setStarted(true);
   };
 
@@ -134,6 +143,22 @@ export const Quiz = ({ shuffleQuestions = false, data }: QuizProps) => {
     setShowSummary(false);
   };
   // Quiz state functions end
+
+  const getButtonColor = ({
+    answer,
+    index,
+  }: {
+    answer: { option: string; correct: boolean };
+    index: number;
+  }) => {
+    if (showAnswers && answer.correct) return correctAnswerButtonStyle;
+
+    if (answeredOptions.includes(index)) {
+      return answer.correct
+        ? correctAnswerButtonStyle
+        : incorrectAnswerButtonStyle;
+    }
+  };
 
   return (
     <>
@@ -154,9 +179,7 @@ export const Quiz = ({ shuffleQuestions = false, data }: QuizProps) => {
                 <div className="quizTitle">
                   <h4>{quizData.title}</h4>
                   <div className="quizDesc">
-                    {quizData.description && (
-                      <h6>{quizData.description}</h6>
-                    )}
+                    {quizData.description && <h6>{quizData.description}</h6>}
                     <br />
                     <h6>[{totalQuestions} questions]</h6>
                   </div>
@@ -192,13 +215,7 @@ export const Quiz = ({ shuffleQuestions = false, data }: QuizProps) => {
                         answeredOptions.includes(index) ||
                         answeredOptions.length >= currentCorrectAnswersAmount
                       }
-                      style={
-                        answeredOptions.includes(index)
-                          ? answer.correct
-                            ? correctAnswerButtonStyle
-                            : incorrectAnswerButtonStyle
-                          : {}
-                      }
+                      style={getButtonColor({ answer, index })}
                     >
                       {answer.option}
                     </button>
