@@ -18,10 +18,10 @@ const incorrectAnswerButtonStyle = {
 
 type QuizProps = {
   shuffleQuestions?: boolean;
-  questions: QuizQuestionProps;
+  data: QuizDataProps;
 };
 
-type QuizQuestionProps = {
+type QuizDataProps = {
   title: string;
   description: string;
   difficulty: string;
@@ -29,33 +29,36 @@ type QuizQuestionProps = {
     title: string;
     description: string;
     answers: {
-      variant: string;
+      option: string;
       correct: boolean;
     }[];
   }[];
 };
 
-export const Quiz = ({ shuffleQuestions = false, questions }: QuizProps) => {
-  const [isStarted, setStarted] = useState(false);
-  const [quizQuestions, setQuizQuestions] = useState(questions);
-  const [currentQuestionID, setCurrentQuestionID] = useState(0);
-  const [answeredVariant, setAnsweredVariant] = useState<number[]>([]);
+export const Quiz = ({ shuffleQuestions = false, data }: QuizProps) => {
+  // Data
+  const [quizData, setQuizData] = useState(data);
+  const [answeredOptions, setAnsweredOptions] = useState<number[]>([]);
   const [totalCorrectAnswers, setTotalCorrectAnswers] = useState(0);
+  const [currentQuestionID, setCurrentQuestionID] = useState(0);
+
+  // States
+  const [isStarted, setStarted] = useState(false);
   const [showSummary, setShowSummary] = useState(false);
 
-  const currentQuestion = quizQuestions.questions[currentQuestionID];
-
+  // Vars
+  const currentQuestion = quizData.questions[currentQuestionID];
   const [totalQuestions, totalCorrectQuestions] = getQuestionsCount();
-  const [isMultipleAnswers, correctAnswersAmount] =
+  const [isMultipleAnswers, currentCorrectAnswersAmount] =
     isCurrQuestionMultiAnswer() as [boolean, number];
 
-  let answersToDo = correctAnswersAmount - answeredVariant.length;
+  let currentQuestionAnswersToDo = currentCorrectAnswersAmount - answeredOptions.length;
 
   function getQuestionsCount() {
     let totalQuestions = 0,
       correctQuestions = 0;
 
-    quizQuestions.questions.forEach((question) => {
+      quizData.questions.forEach((question) => {
       question.answers.forEach((answer) => {
         if (answer.correct) correctQuestions++;
       });
@@ -79,30 +82,28 @@ export const Quiz = ({ shuffleQuestions = false, questions }: QuizProps) => {
     return (totalCorrectAnswers / totalCorrectQuestions) * 100;
   };
 
-  function shuffleQuestionsArray(array: QuizQuestionProps) {
-    const newArray = { ...array };
+  function shuffleQuestionsArray(data: QuizDataProps) {
+    const newData = { ...data };
 
-    newArray.questions.sort(() => Math.random() - 0.5);
-    newArray.questions.forEach((answer) =>
+    newData.questions.sort(() => Math.random() - 0.5);
+    newData.questions.forEach((answer) =>
       answer.answers.sort(() => Math.random() - 0.5)
     );
-    return newArray;
+    return newData;
   }
 
   const startQuiz = () => {
-    if (shuffleQuestions) {
-      setQuizQuestions((prevArray) => shuffleQuestionsArray(prevArray));
-    }
+    if (shuffleQuestions) 
+      setQuizData((prevArray) => shuffleQuestionsArray(prevArray));
+    
     setStarted(true);
   };
 
   const resetQuiz = () => {
     setStarted(false);
     setCurrentQuestionID(0);
-    setAnsweredVariant([]);
+    setAnsweredOptions([]);
     setShowSummary(false);
-
-    console.log("start?");
   };
 
   const handleAnswerClick = (
@@ -110,15 +111,15 @@ export const Quiz = ({ shuffleQuestions = false, questions }: QuizProps) => {
     index: number,
     isCorrect: boolean
   ) => {
-    if (!isMultipleAnswers) setAnsweredVariant([index]);
-    setAnsweredVariant([...answeredVariant, index]);
+    if (!isMultipleAnswers) setAnsweredOptions([index]);
+    setAnsweredOptions([...answeredOptions, index]);
 
     setTotalCorrectAnswers((prevVal) => prevVal + (isCorrect ? 1 : 0));
   };
 
   const handleNext = () => {
-    if (!(currentQuestionID + 1 === quizQuestions.questions.length)) {
-      setAnsweredVariant([]); // Clear answers
+    if (!(currentQuestionID + 1 === quizData.questions.length)) {
+      setAnsweredOptions([]); // Clear answers
       setCurrentQuestionID((prevID) => prevID + 1);
     } else {
       // No more questions
@@ -132,7 +133,7 @@ export const Quiz = ({ shuffleQuestions = false, questions }: QuizProps) => {
         {showSummary ? (
           <div className="quizSummary">
             <h2>Congratulations!</h2>
-            <p>You have finished "{quizQuestions.title}" quiz.</p>
+            <p>You have finished "{quizData.title}" quiz.</p>
             <h3>Total Grade: {calculateGrade().toFixed(1)}%</h3>
             <button className="button nextButton" onClick={() => resetQuiz()}>
               Try again
@@ -143,10 +144,10 @@ export const Quiz = ({ shuffleQuestions = false, questions }: QuizProps) => {
             {!isStarted ? (
               <>
                 <div className="quizTitle">
-                  <h4>{quizQuestions.title}</h4>
+                  <h4>{quizData.title}</h4>
                   <div className="quizDesc">
-                    {quizQuestions.description && (
-                      <h6>{quizQuestions.description}</h6>
+                    {quizData.description && (
+                      <h6>{quizData.description}</h6>
                     )}
                     <br />
                     <h6>[{totalQuestions} questions]</h6>
@@ -158,9 +159,9 @@ export const Quiz = ({ shuffleQuestions = false, questions }: QuizProps) => {
                 >
                   Start Quiz
                 </button>
-                {quizQuestions.difficulty && (
+                {quizData.difficulty && (
                   <h6 className="quizDifficulty">
-                    Difficulty: {quizQuestions.difficulty}
+                    Difficulty: {quizData.difficulty}
                   </h6>
                 )}
               </>
@@ -180,27 +181,27 @@ export const Quiz = ({ shuffleQuestions = false, questions }: QuizProps) => {
                       key={index}
                       className="button quizAnswerOption"
                       disabled={
-                        answeredVariant.includes(index) ||
-                        answeredVariant.length >= correctAnswersAmount
+                        answeredOptions.includes(index) ||
+                        answeredOptions.length >= currentCorrectAnswersAmount
                       }
                       style={
-                        answeredVariant.includes(index)
+                        answeredOptions.includes(index)
                           ? answer.correct
                             ? correctAnswerButtonStyle
                             : incorrectAnswerButtonStyle
                           : {}
                       }
                     >
-                      {answer.variant}
+                      {answer.option}
                     </button>
                   ))}
 
                   <p>
-                    {answersToDo === 0 ? (
+                    {currentQuestionAnswersToDo === 0 ? (
                       <b>{`Click next to continue.`}</b>
                     ) : (
-                      <b>{`* Select ${answersToDo}  ${
-                        answersToDo ? `answers` : `answer`
+                      <b>{`* Select ${currentQuestionAnswersToDo}  ${
+                        currentQuestionAnswersToDo ? `answers` : `answer`
                       }`}</b>
                     )}
                   </p>
@@ -209,7 +210,7 @@ export const Quiz = ({ shuffleQuestions = false, questions }: QuizProps) => {
                 <button
                   className="button nextButton"
                   onClick={() => handleNext()}
-                  disabled={answersToDo > 0}
+                  disabled={currentQuestionAnswersToDo > 0}
                 >
                   Next
                 </button>
