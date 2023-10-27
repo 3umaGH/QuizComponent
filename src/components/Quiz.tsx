@@ -112,7 +112,7 @@ export const Quiz = ({
 
     setTotalCorrectAnswers((prevVal) => prevVal + (isCorrect ? 1 : 0));
 
-    if (currentQuestionAnswersToDo <= 1) setShowAnswers(true);
+    if (currentQuestionAnswersToDo <= 1 && showCorrectAnswers) setShowAnswers(true);
   };
 
   const handleNext = () => {

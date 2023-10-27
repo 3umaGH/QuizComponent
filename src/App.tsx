@@ -3,7 +3,8 @@ import { Quiz } from "./components/Quiz";
 function App() {
   const quizData1 = {
     title: "JavaScript Fundamentals Quiz",
-    description: "Test your knowledge of JavaScript fundamentals with this quiz! Good luck!",
+    description:
+      "Test your knowledge of JavaScript fundamentals with this quiz! Good luck!",
     difficulty: "Intermediate",
     questions: [
       {
@@ -124,7 +125,8 @@ function App() {
 
   const quizData2 = {
     title: "CSS Fundamentals Quiz",
-    description: "Test your knowledge of CSS fundamentals with this quiz! Good luck!",
+    description:
+      "Test your knowledge of CSS fundamentals with this quiz! Good luck!",
     difficulty: "Intermediate",
     questions: [
       {
@@ -138,7 +140,8 @@ function App() {
         ],
       },
       {
-        title: "Which property is used to change the background color of an element?",
+        title:
+          "Which property is used to change the background color of an element?",
         description: "Select the correct option.",
         answers: [
           { option: "background-color", correct: true },
@@ -168,7 +171,8 @@ function App() {
         ],
       },
       {
-        title: "Which unit is relative to the font-size of the nearest parent element?",
+        title:
+          "Which unit is relative to the font-size of the nearest parent element?",
         description: "Select the correct option.",
         answers: [
           { option: "em", correct: true },
@@ -182,7 +186,8 @@ function App() {
 
   const quizData3 = {
     title: "HTML Basics Quiz",
-    description: "Test your knowledge of HTML basics with this quiz! Good luck!",
+    description:
+      "Test your knowledge of HTML basics with this quiz! Good luck!",
     difficulty: "Beginner",
     questions: [
       {
@@ -216,7 +221,8 @@ function App() {
         ],
       },
       {
-        title: "Which element is used to define the structure of an HTML document?",
+        title:
+          "Which element is used to define the structure of an HTML document?",
         description: "Select the correct option.",
         answers: [
           { option: "<html>", correct: true },
@@ -237,15 +243,27 @@ function App() {
       },
     ],
   };
-  
-
 
   return (
     <div className="App">
-      <Quiz shuffleQuestions={true} showCorrectAnswers={true} data={quizData1} /><br/>
-      <Quiz shuffleQuestions={true} showCorrectAnswers={true} data={quizData2} /><br/>
-      <Quiz shuffleQuestions={true} showCorrectAnswers={true} data={quizData3} /><br/>
-      
+      <Quiz
+        shuffleQuestions={true}
+        showCorrectAnswers={true}
+        data={quizData1}
+      />
+      <br />
+      <Quiz
+        shuffleQuestions={true}
+        showCorrectAnswers={true}
+        data={quizData2}
+      />
+      <br />
+      <Quiz
+        shuffleQuestions={true}
+        showCorrectAnswers={true}
+        data={quizData3}
+      />
+      <br />
     </div>
   );
 }
